@@ -1,0 +1,57 @@
+#!/usr/bin/env python3
+# © Gabriel Conlon
+# Create on: Tue Aug 10 15:51:17 MDT 2021
+
+from resources import menus, colors
+from modules import autocomplete, decryptRSA_to_ASCII, hextodec, binaryConversion
+
+debug = True
+# Menu / Instructions
+def switchCase(*args):
+
+    switcher = {
+        "help": lambda: menus.helpMenu("mainhelp"),
+        "decryptRSA": lambda: decryptRSA_to_ASCII.decrypt(args),
+        "convertbinary": lambda: binaryConversion.convertIP_toBinary(args),
+        "converthextodec": lambda: hextodec.convert(args)
+    }
+
+    try:
+        func = switcher.get(args[0], lambda: print(f"{colors.red}{colors.bad}Invalid Input."))
+        func()
+    except IndexError:
+        print(f"""{colors.red}{colors.bad}Invalid number of arguments.
+        Try {args[0]} -help""")
+
+def decrypt_help_menu():
+    print(menus.DecryptionHelpMenu)
+
+def main():
+    autocomplete.CommandComplete()
+    command = input(f"{colors.yellow}NetTools >> {colors.end}")
+
+    # Command Parsing
+    commandOptions = command.split(" ")
+    if len(commandOptions) > 1:
+        commandBase = commandOptions[0]
+        del commandOptions[0]
+        commandArgs = commandOptions[-1]
+        del commandOptions[-1]
+        switchCase(commandBase, commandOptions, commandArgs)
+    else:
+        commandBase = commandOptions[0]
+        switchCase(commandBase)
+
+
+
+    # DEBUG PRINT STATEMENTS
+    if debug and 'commandOptions' in locals() and 'commandArgs' in locals():
+        print(f"Module: {commandBase}")
+        print(f"Arguments: {commandArgs}")
+        print(f"Options: {commandOptions}")
+    if debug and 'commandArgs' not in locals():
+        print(f"Module: {commandBase}")
+
+if __name__ == "__main__":
+    while True:
+        main()
