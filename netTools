@@ -11,7 +11,7 @@ def switchCase(*args):
 
     switcher = {
         "help": lambda: menus.helpMenu("mainhelp"),
-        "decryptRSA": lambda: decryptRSA_to_ASCII.decrypt(args),
+        "decryptRSA": lambda: decryptRSA_to_ASCII.decrypt(),
         "convertbinary": lambda: binaryConversion.convertIP_toBinary(args),
         "converthextodec": lambda: hextodec.convert(args)
     }
